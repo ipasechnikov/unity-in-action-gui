@@ -8,10 +8,12 @@ using UnityEngine;
 public class UIController : MonoBehaviour
 {
     [SerializeField] TMP_Text scoreLabel;
+    [SerializeField] SettingsPopup settingsPopup;
 
     // Start is called before the first frame update
     void Start()
     {
+        settingsPopup.Close();
     }
 
     // Update is called once per frame
@@ -22,7 +24,7 @@ public class UIController : MonoBehaviour
 
     public void OnOpenSettings()
     {
-        Debug.Log("open settings");
+        settingsPopup.Open();
     }
 
     public void OnPointerDown()
