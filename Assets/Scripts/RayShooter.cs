@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class RayShooter : MonoBehaviour
 {
@@ -11,8 +12,8 @@ public class RayShooter : MonoBehaviour
     {
         cam = GetComponent<Camera>();
 
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
     }
 
     private void OnGUI()
@@ -27,7 +28,7 @@ public class RayShooter : MonoBehaviour
     void Update()
     {
         // Handle left mouse click
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
         {
             var point = new Vector3(cam.pixelWidth / 2, cam.pixelHeight / 2, 0);
             var ray = cam.ScreenPointToRay(point);
