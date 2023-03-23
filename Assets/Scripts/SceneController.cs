@@ -9,11 +9,22 @@ public class SceneController : MonoBehaviour
 
     // Variable to keep track of the enemy instance in the scene
     private GameObject enemy;
+    private float enemySpeedMultiplier;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        enemySpeedMultiplier = PlayerPrefs.GetFloat("speed", 1.0f);
+    }
+
+    void OnEnable()
+    {
+        Messenger<float>.AddListener(GameEvent.SPEED_CHANGED, OnSpeedChanged);
+    }
+
+    void OnDisable()
+    {
+        Messenger<float>.RemoveListener(GameEvent.SPEED_CHANGED, OnSpeedChanged);
     }
 
     // Update is called once per frame
@@ -25,6 +36,12 @@ public class SceneController : MonoBehaviour
             enemy.transform.position = new Vector3(0, 1, 0);
             var angle = Random.Range(0, 360);
             enemy.transform.Rotate(0, angle, 0);
+            enemy.GetComponent<WanderingAI>().OnSpeedChanged(enemySpeedMultiplier);
         }
+    }
+
+    private void OnSpeedChanged(float value)
+    {
+        enemySpeedMultiplier = value;
     }
 }

@@ -7,6 +7,8 @@ public class WanderingAI : MonoBehaviour
     [SerializeField] GameObject fireballPrefab;
     private GameObject fireball;
 
+    public const float baseSpeed = 3.0f;
+
     public float speed = 3.0f;
     public float obstracleRange = 5.0f;
 
@@ -19,6 +21,16 @@ public class WanderingAI : MonoBehaviour
     void Start()
     {
         IsAlive = true;
+    }
+
+    void OnEnable()
+    {
+        Messenger<float>.AddListener(GameEvent.SPEED_CHANGED, OnSpeedChanged);
+    }
+
+    void OnDisable()
+    {
+        Messenger<float>.RemoveListener(GameEvent.SPEED_CHANGED, OnSpeedChanged);
     }
 
     // Update is called once per frame
@@ -54,5 +66,10 @@ public class WanderingAI : MonoBehaviour
                 transform.Rotate(0, angle, 0);
             }
         }
+    }
+
+    public void OnSpeedChanged(float value)
+    {
+        speed = baseSpeed * value;
     }
 }
